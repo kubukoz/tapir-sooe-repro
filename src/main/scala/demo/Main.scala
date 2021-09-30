@@ -17,7 +17,7 @@ import sttp.tapir.server.http4s.Http4sServerInterpreter
 
 object Main extends IOApp.Simple {
 
-  enum Base derives Codec.AsObject {
+  enum Base {
     case EmptyImage
     // even this case isn't necessary to reproduce the issue
     case ImageReference(hash: String)
