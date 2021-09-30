@@ -5,10 +5,6 @@ import cats.effect.IOApp
 import com.comcast.ip4s.host
 import com.comcast.ip4s.port
 import io.circe.Codec
-import io.circe.Decoder
-import io.circe.Encoder
-import io.circe.Json
-import io.circe.JsonObject
 import org.http4s.HttpRoutes
 import org.http4s.ember.server.EmberServerBuilder
 import org.http4s.implicits._
