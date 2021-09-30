@@ -17,30 +17,10 @@ import sttp.tapir.server.http4s.Http4sServerInterpreter
 
 object Main extends IOApp.Simple {
 
-  enum Base {
+  enum Base derives Codec.AsObject, Schema {
     case EmptyImage
     // even this case isn't necessary to reproduce the issue
     case ImageReference(hash: String)
-  }
-
-  object Base {
-    implicit def s: Schema[Base] = Schema.derived
-
-    // Manual circe coders to exclude likelihood of the issue being in there
-    given Encoder[Base] = {
-      case Base.EmptyImage =>
-        Json.obj("EmptyImage" -> Json.obj())
-      case Base.ImageReference(hash) =>
-        Json.obj("ImageReference" -> Json.obj("hash" -> Json.fromString(hash)))
-    }
-
-    given Decoder[Base] = Decoder[JsonObject]
-      .at("EmptyImage")
-      .map(_ => Base.EmptyImage)
-      .or(
-        Decoder[String].at("hash").at("ImageReference").map(Base.ImageReference(_))
-      )
-
   }
 
   def run: IO[Unit] =
